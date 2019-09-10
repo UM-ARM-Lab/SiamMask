@@ -1,0 +1,4 @@
+python 3.6.3
+torch 1.0.0
+CUDA 10.0
+
