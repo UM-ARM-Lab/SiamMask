@@ -4,7 +4,13 @@
 # Written by Qiang Wang (wangqiang2015 at ia.ac.cn)
 # --------------------------------------------------------
 import glob
+import os
+dirpath = os.getcwd()
+print("current directory is: " + dirpath)
 from tools.test import *
+import sys
+sys.path.insert(1, '/home/kunhuang/catkin_ws/src/SiamMask/src/SiamMask/experiments/siammask_sharp/')
+print(sys.path)
 
 parser = argparse.ArgumentParser(description='PyTorch Tracking Demo')
 

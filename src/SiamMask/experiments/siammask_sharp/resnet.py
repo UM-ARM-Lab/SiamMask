@@ -3,7 +3,7 @@ import torch
 from torch.autograd import Variable
 import math
 import torch.utils.model_zoo as model_zoo
-from models.features import Features
+from SiamMask.models.features import Features
 
 __all__ = ['ResNet', 'resnet18', 'resnet34', 'resnet50', 'resnet101',
            'resnet152']
