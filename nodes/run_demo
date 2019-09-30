@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-from SiamMask.tools.rosdemo import demo_ros
+from SiamMask.tools.rosdemo import demo_ros_subscriber
 import rospy
 # from mps_msgs.msg import AABBox2d
 import actionlib
@@ -8,13 +8,7 @@ from mps_msgs.msg import *
 
 def callback(box):
     rospy.loginfo(rospy.get_caller_id() + "Received: %f %f %f %f", box.xmin, box.ymin, box.xmax, box.ymax)
-    # bbox =AABBox2d()
-    # bbox.xmin = 100
-    # bbox.ymin = 100
-    # bbox.xmax = 300
-    # bbox.ymax = 200
-
-    demo_ros(box)
+    demo_ros_subscriber(box)
 
 if __name__== '__main__':
     # In ROS, nodes are uniquely named. If two nodes with the same
