@@ -9,11 +9,11 @@ from mps_msgs.msg import AABBox2d
 
 def demo_ros(bbox, ims):
     dirpath = os.getcwd()
-    print("current directory is : " + dirpath)
+    # print("current directory is : " + dirpath)
     os.chdir("/home/kunhuang/catkin_ws/src/SiamMask/src/SiamMask/experiments/siammask_sharp")
 
     dirpath = os.getcwd()
-    print("current directory is : " + dirpath)
+    # print("current directory is : " + dirpath)
     sys.path.insert(1, '/home/kunhuang/catkin_ws/src/SiamMask/src/SiamMask/experiments/siammask_sharp/')
     sys.path.insert(1, '/home/kunhuang/catkin_ws/src/SiamMask/src/SiamMask/tools')
     sys.path.insert(1, '/home/kunhuang/catkin_ws/src/SiamMask/src/SiamMask')
@@ -61,6 +61,7 @@ def demo_ros(bbox, ims):
     # except:
     #     exit()
 
+    maskVideo = []
     toc = 0
     for f, im in enumerate(ims):
         tic = cv2.getTickCount()
@@ -73,12 +74,21 @@ def demo_ros(bbox, ims):
             location = state['ploygon'].flatten()
             mask = state['mask'] > state['p'].seg_thr
 
-            print(type(im))
+            print(type(mask))
+            # print(mask.shape)
+            # print(mask.astype(float))
+
             # im.setflags(write=1)
             im_out = im.copy()
             im_out[:, :, 2] = (mask > 0) * 255 + (mask == 0) * im[:, :, 2]
+            mask_im = im.copy()
+
             cv2.polylines(im_out, [np.int0(location).reshape((-1, 1, 2))], True, (0, 255, 0), 3)
             cv2.imshow('SiamMask', im_out)
+            # cv2.imshow('SiamMask', mask.astype(float))
+            
+            maskVideo.append(mask.astype(float))
+
             key = cv2.waitKey(100)
             if key > 0:
                 break
@@ -87,6 +97,7 @@ def demo_ros(bbox, ims):
     toc /= cv2.getTickFrequency()
     fps = f / toc
     print('SiamMask Time: {:02.1f}s Speed: {:3.1f}fps (with visulization!)'.format(toc, fps))
+    return maskVideo
 
 
 def demo_ros_subscriber(bbox):
