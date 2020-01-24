@@ -87,7 +87,7 @@ def demo_ros(bbox, ims):
             cv2.imshow('SiamMask', im_out)
             # cv2.imshow('SiamMask', mask.astype(float))
             
-            maskVideo.append(mask.astype(float))
+            maskVideo.append(np.uint8(mask))
 
             key = cv2.waitKey(100)
             if key > 0:
