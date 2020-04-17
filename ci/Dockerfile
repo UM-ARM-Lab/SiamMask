@@ -1,12 +1,5 @@
 FROM um_arm_lab/baseline:melodic
 
-# TODO: Move this to baseline
-# Install pip
-RUN apt-get -yq update && \
-    DEBIAN_FRONTEND=noninteractive apt-get -yqq install \
-    python-pip && \
-    rm -rf /var/lib/apt/lists/*
-
 # Install python requirements of SiamMask
 ADD src/SiamMask/requirements.txt /root
 RUN pip install -r /root/requirements.txt
@@ -18,3 +11,10 @@ RUN cd && \
     catkin_init_workspace
 
 ADD ./ /root/catkin_ws/src/siam_mask
+RUN cd /root/catkin_ws/src/siam_mask/src/SiamMask/experiments/siammask_sharp && \
+    wget http://www.robots.ox.ac.uk/~qwang/SiamMask_VOT.pth && \
+    wget http://www.robots.ox.ac.uk/~qwang/SiamMask_DAVIS.pth
+RUN cd /root/catkin_ws/src/siam_mask/src/SiamMask/ && \
+    export SiamMask=$(pwd) && \
+    bash make.sh && \
+    export PYTHONPATH=/root/catkin_ws/devel/lib/python2.7/dist-packages:/opt/ros/melodic/lib/python2.7/dist-packages:$SiamMask/experiments/siammask_sharp:$SiamMask

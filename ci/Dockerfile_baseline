@@ -20,6 +20,9 @@ RUN apt-get -yq update && \
     DEBIAN_FRONTEND=noninteractive apt-get -yqq install \
     dirmngr \
     gnupg2 \
+    wget \
+    cmake \
+    git \
     lsb-release && \
     rm -rf /var/lib/apt/lists/*
 RUN sh -c 'echo "deb http://packages.ros.org/ros/ubuntu $(lsb_release -sc) main" > /etc/apt/sources.list.d/ros-latest.list'
@@ -30,5 +33,6 @@ RUN apt-get -yq update && \
     python-rosinstall \
     python-rosinstall-generator \
     python-wstool \
+    python-pip \
     build-essential && \
     rm -rf /var/lib/apt/lists/*
