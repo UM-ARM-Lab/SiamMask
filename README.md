@@ -48,14 +48,8 @@ docker run --gpus all -it -v /tmp/.X11-unix:/tmp/.X11-unix -e DISPLAY=unix$DISPL
 ```
 
 ```
-source /opt/ros/melodic/setup.bash
-cd /root/catkin_ws
-catkin_make
-source devel/setup.bash
-
+source /root/catkin_ws/devel/setup.bash
 export SIAM_MASK_PATH=/root/catkin_ws/src/siam_mask/src/SiamMask/
-cd $SIAM_MASK_PATH
-bash make.sh
 
 export PYTHONPATH=/root/catkin_ws/devel/lib/python2.7/dist-packages:/opt/ros/melodic/lib/python2.7/dist-packages:$SIAM_MASK_PATH/experiments/siammask_sharp:$SIAM_MASK_PATH
 
