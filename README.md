@@ -25,21 +25,16 @@ export ROS_PACKAGE_PATH=/home/kunhuang/mps_ws/src:/home/kunhuang/armlab_ws/src:/
 
 # DOCKER RELATED
 
-## Usefull Docker Commands
+## Build Images
+
+Baseline (CUDA, ROS, other common):
 ```
-docker run --gpus all -it -v /tmp/.X11-unix:/tmp/.X11-unix -e DISPLAY=unix$DISPLAY um_arm_lab/siam_mask:melodic
+docker build . -f ci/Dockerfile_baseline -t um_arm_lab/baseline:melodic
+```
 
+SiamMask:
+```
 docker build . -f ci/Dockerfile -t um_arm_lab/siam_mask:melodic
-
-docker run --rm -it um_arm_lab/siam_mask:melodic
-
-docker start --attach -i lucid_jepsen
-
-docker run --gpus all nvidia/cuda:10.0-base nvidia-smi
-
-docker run --gpus all nvidia/cuda:10.2-cudnn7-devel-ubuntu18.04 nvidia-smi
-
-docker pull nvidia/cuda:10.0
 ```
 
 ## Run demo.py
