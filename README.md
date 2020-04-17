@@ -22,3 +22,41 @@ export PYTHONPATH=/home/kunhuang/catkin_ws/devel/lib/python3/dist-packages:/home
 
 export ROS_PACKAGE_PATH=/home/kunhuang/mps_ws/src:/home/kunhuang/armlab_ws/src:/home/kunhuang/catkin_ws/src:/opt/ros/melodic/share
 ```
+
+# DOCKER RELATED
+
+## Usefull Docker Commands
+```
+docker run -it -v /tmp/.X11-unix:/tmp/.X11-unix -e DISPLAY=unix$DISPLAY um_arm_lab/siam_mask:melodic
+
+docker build . -f ci/Dockerfile -t um_arm_lab/siam_mask:melodic
+
+docker run --rm -it um_arm_lab/siam_mask:melodic
+
+docker start --attach -i lucid_jepsen
+
+docker run --gpus all nvidia/cuda:10.0-base nvidia-smi
+
+docker run --gpus all nvidia/cuda:10.2-cudnn7-devel-ubuntu18.04 nvidia-smi
+
+docker pull nvidia/cuda:10.0
+```
+
+## Run demo.py
+```
+docker run -it -v /tmp/.X11-unix:/tmp/.X11-unix -e DISPLAY=unix$DISPLAY um_arm_lab/siam_mask:melodic
+
+source /opt/ros/melodic/setup.bash
+
+catkin_make
+
+source devel/setup.bash
+
+bash make.sh
+
+export PYTHONPATH=/root/catkin_ws/devel/lib/python2.7/dist-packages:/opt/ros/melodic/lib/python2.7/dist-packages:/root/catkin_ws/src/siam_mask/src/SiamMask/experiments/siammask_sharp:/root/catkin_ws/src/siam_mask/src/SiamMask
+
+cd $SiamMask/experiments/siammask_sharp
+
+python ../../tools/demo.py --resume SiamMask_DAVIS.pth --config config_davis.json
+```

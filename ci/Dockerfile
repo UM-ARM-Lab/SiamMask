@@ -17,4 +17,4 @@ RUN cd && \
     source /opt/ros/$(rosversion -d)/setup.bash && \
     catkin_init_workspace
 
-ADD ./ ~/catkin_ws/src/siam_mask
+ADD ./ /root/catkin_ws/src/siam_mask
