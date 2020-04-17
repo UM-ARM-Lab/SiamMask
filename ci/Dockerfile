@@ -10,11 +10,17 @@ RUN cd && \
     source /opt/ros/$(rosversion -d)/setup.bash && \
     catkin_init_workspace
 
-ADD ./ /root/catkin_ws/src/siam_mask
-RUN cd /root/catkin_ws/src/siam_mask/src/SiamMask/experiments/siammask_sharp && \
+RUN mkdir -p /root/catkin_ws/src/siam_mask/src/SiamMask/experiments/siammask_sharp && \
+    cd /root/catkin_ws/src/siam_mask/src/SiamMask/experiments/siammask_sharp && \
     wget http://www.robots.ox.ac.uk/~qwang/SiamMask_VOT.pth && \
     wget http://www.robots.ox.ac.uk/~qwang/SiamMask_DAVIS.pth
-RUN cd /root/catkin_ws/src/siam_mask/src/SiamMask/ && \
+ADD ./ /root/catkin_ws/src/siam_mask
+RUN cd /root/catkin_ws && \
+    source /opt/ros/$(rosversion -d)/setup.bash && \
+    catkin_make && \
+    source devel/setup.bash && \
+    cd /root/catkin_ws/src/siam_mask/src/SiamMask/ && \
     export SiamMask=$(pwd) && \
     bash make.sh && \
-    export PYTHONPATH=/root/catkin_ws/devel/lib/python2.7/dist-packages:/opt/ros/melodic/lib/python2.7/dist-packages:$SiamMask/experiments/siammask_sharp:$SiamMask
+    export PYTHONPATH=/root/catkin_ws/devel/lib/python2.7/dist-packages:/opt/ros/melodic/lib/python2.7/dist-packages:$SiamMask/experiments/siammask_sharp:$SiamMask && \
+    python2 -m pip install --upgrade torch future
