@@ -1,5 +1,11 @@
 FROM um_arm_lab/baseline:melodic
 
+RUN apt-get -yq update && \
+    DEBIAN_FRONTEND=noninteractive apt-get -yqq install \
+    llvm-8 && \
+    ln -s /usr/bin/llvm-config-8 /usr/bin/llvm-config && \
+    rm -rf /var/lib/apt/lists/*
+
 # Install python requirements of SiamMask
 ADD src/SiamMask/requirements.txt /root
 RUN pip install -r /root/requirements.txt
