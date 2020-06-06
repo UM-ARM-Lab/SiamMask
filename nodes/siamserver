@@ -3,6 +3,7 @@
 from SiamMask.tools.rosdemo import demo_ros
 import rospy
 import actionlib
+from sensor_msgs.msg import CompressedImage
 from mps_msgs.msg import *
 import cv2
 from cv_bridge import CvBridge, CvBridgeError
@@ -38,7 +39,12 @@ class SiamMaskAction(object):
         maskVideo = demo_ros(goal.bbox, ims)
         outmsg = []
         for im in maskVideo:
-            imgmsg = bridge.cv2_to_imgmsg(im, encoding="passthrough")
+#           imgmsg = bridge.cv2_to_imgmsg(im, encoding="passthrough")
+            compression_params = [cv2.IMWRITE_PNG_COMPRESSION, 9, cv2.IMWRITE_PNG_BILEVEL, 1]
+            imgmsg = CompressedImage()
+            res = cv2.imencode(".png", im, compression_params)
+            imgmsg.format = "png"
+            imgmsg.data = bytes(res[1])
             outmsg.append(imgmsg)
         
         if success:
